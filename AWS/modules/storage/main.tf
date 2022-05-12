@@ -8,16 +8,25 @@ terraform {
 }
 resource "aws_s3_bucket" "log_bucket"  {
    bucket = "examplebuckettftest"
+   acl    = "private"
+   versioning {
+    enabled = true
+    mfa_delete = true
+  }
 }
 resource "aws_s3_bucket" "logging" {
   bucket = "examplebuckettftest"
+}
+
+resource "aws_s3_bucket" "loggingBranch" {
+  bucket = "examplebuckettftestB"
 }
 
 resource "aws_s3_bucket" "mfadelete" {
   bucket = "examplebuckettftest"
   acl    = var.private
   versioning {
-    mfa_delete = false
+    mfa_delete = true
   }
   logging {
     target_bucket = aws_s3_bucket.log_bucket.id
